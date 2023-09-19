@@ -1,5 +1,5 @@
 DDIT4L monocyte extraction validation
-Last update: 2023-09-19
+<p> Last update: 2023-09-19
 
 * Flow analysis was performed using R (4.3.1 -- "Beagle Scouts") in RStudio ('2023.6.1.524' -- "Mountain Hydrangea") using mainly `ggcyto` and `flowCore` (see 'R session info' below). 
 ** The .rmd file in this folder was used to generate the analysis.
@@ -9,8 +9,8 @@ Last update: 2023-09-19
 Purpose: to obtain viable monocytes via positive selection (CD14+) to validate the RNA expression of DDIT4L in term monocytes (controls: adult)
 
 ==================================================================
-![Figure 1 - Flow gating strategy and samples](https://github.com/liamg15/Flow_cytometry/blob/main/Final%20figures/flow_layout_example_final.tif?raw=true)
-Experimental set-up:
+<img src= "https://github.com/liamg15/Flow_cytometry/blob/main/Final%20figures/flow_layout_example_final.tif?raw=true">
+</p> Experimental set-up:
 
 * For RT-PCR:
 - 4 term samples (TS220, TS549, TS555, TS579)
@@ -39,7 +39,7 @@ Folder breakdown:
 ==================================================================
 
 R session info:
-attached base packages:
+</p> attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
