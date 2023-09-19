@@ -1,5 +1,5 @@
 DDIT4L monocyte extraction validation
-Last update: 2023-09-15
+Last update: 2023-09-19
 ``````````````````````````````````````
 * Flow analysis was performed using R (4.3.1 -- "Beagle Scouts") in RStudio ('2023.6.1.524' -- "Mountain Hydrangea") using mainly `ggcyto` and `flowCore` (see 'R session info' below). 
 ** The .rmd file in this folder was used to generate the analysis.
