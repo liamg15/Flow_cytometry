@@ -10,7 +10,7 @@ Purpose: to obtain viable monocytes via positive selection (CD14+) to validate t
 
 ==================================================================
 ![Figure 1 - Flow gating strategy and samples](https://github.com/liamg15/Flow_cytometry/blob/main/Final%20figures/flow_layout_example_final.tif?raw=true)
-Experimental set-up:
+<p> Experimental set-up:
 
 * For RT-PCR:
 - 4 term samples (TS220, TS549, TS555, TS579)
