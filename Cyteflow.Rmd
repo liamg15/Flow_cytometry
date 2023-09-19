@@ -122,7 +122,7 @@ gs_pop_add(gs, g.other, parent = "FVD")
 recompute(gs)
 ```
 
-```{r Population statistics}
+```{r Population statistics (CD14+ ad CD3:CD19+)}
 ps <- data.frame(gs_pop_get_count_fast(gs))
 
 ps %>% 
