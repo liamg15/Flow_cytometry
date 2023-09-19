@@ -9,7 +9,7 @@ DDIT4L monocyte extraction validation
 Purpose: to obtain viable monocytes via positive selection (CD14+) to validate the RNA expression of DDIT4L in term monocytes (controls: adult)
 
 ==================================================================
-<img src= "https://github.com/liamg15/Flow_cytometry/blob/main/Final%20figures/flow_layout_example_final.tif?raw=true">
+![Figure 1 - Flow gating strategy and samples](https://github.com/liamg15/Flow_cytometry/blob/main/Final%20figures/flow_layout_example_final.png?raw=true)
 </p> Experimental set-up:
 
 * For RT-PCR:
