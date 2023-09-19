@@ -1,5 +1,5 @@
 
-```{r Load packages}
+```{r Load packages,message = F}
 #BiocManager::install('ggcyto')
 #BiocManager::install('flowCore', force = T)
 library(tidyverse)
@@ -9,22 +9,31 @@ library(ggcyto)
 
 ```{r Load .FCS files, warning = F}
 fs <- read.flowSet(path = here("FCS files"),pattern = ".fcs",alter.names = T)
+```
+
+```{r Rename specimens}
 pData(fs)$name <- gsub("*.fcs","", pData(fs)$name)
 pData(fs)$name <- gsub("Specimen_001_*","", pData(fs)$name)
 pData(fs)$name <- gsub("Specimen_002_*","", pData(fs)$name)
 pData(fs)
+```
 
+```{r Rename channels}
 colnames(fs)
 
 colnames(fs)[colnames(fs) == "V.440.40.A"] <- "CD14 BV421"
 colnames(fs)[colnames(fs) == "B.515.20.A"] <- "CD3/CD19 FITC"
 colnames(fs)[colnames(fs) == "R.780.60.A"] <- "FVD eF780"
+```
 
+```{r Obtain gating set}
 gs <- GatingSet(fs)
 ```
 
 ```{r Gating strategy}
-g.cells <- polygonGate(filterId = "Cells","FSC.A"=c(6e4,27e4,27e4,12e4),"SSC.A"=c(0e4,0e4,27e4,27e4)) # define gate
+g.cells <- polygonGate(filterId = "Cells",
+                       "FSC.A"=c(6e4,27e4,27e4,12e4),
+                       "SSC.A"=c(0e4,0e4,27e4,27e4)) # define gates
 
 #pdf("Cells_CBMC.pdf", width = 2.5, height = 2)
 ggcyto(gs[[5]],aes(x=FSC.A,y=SSC.A), subset="root") +
@@ -114,14 +123,18 @@ recompute(gs)
 ```
 
 ```{r Population statistics}
-ps <- gs_pop_get_count_fast(gs)
+ps <- data.frame(gs_pop_get_count_fast(gs))
 
-ps %>% mutate(percent_of_parent=round(100*Count/ParentCount,digits = 2)) %>% 
+ps %>% 
+  mutate(percent_of_parent=round(100*Count/ParentCount,digits = 2)) %>% 
+  dplyr::filter(str_detect(Population, "CD14+|CD3:CD19+")) %>% 
+  mutate(Population = gsub("/Cells/Singlets/FVD/","", Population)) %>% 
+  pivot_wider(id_cols = c(name, Parent), names_from = Population, values_from = percent_of_parent) %>% 
   knitr::kable()
 ```
 
-```{r Facet plots}
-pdf("Cells_facet.pdf", width = 7, height = 5)
+```{r Facet plots to see how gating performs with all samples}
+#pdf("Cells_facet.pdf", width = 7, height = 5)
 ggcyto(gs,aes(x=FSC.A,y=SSC.A), subset="root") +
   geom_hex(bins = 200) +
   geom_gate(g.cells) +
@@ -133,9 +146,9 @@ ggcyto(gs,aes(x=FSC.A,y=SSC.A), subset="root") +
   theme(strip.background = element_blank(),
         strip.text = element_text(color = "black"),
         legend.position = "none")
-dev.off()
+#dev.off()
 
-pdf("Singlets_facet.pdf", width = 7, height = 5)
+#pdf("Singlets_facet.pdf", width = 7, height = 5)
 ggcyto(gs,aes(x=FSC.A,y=FSC.H), subset="Cells") +
   geom_hex(bins = 200) +
   geom_gate(g.singlets) +
@@ -146,9 +159,9 @@ ggcyto(gs,aes(x=FSC.A,y=FSC.H), subset="Cells") +
   theme(strip.background = element_blank(),
         strip.text = element_text(color = "black"),
         legend.position = "none")
-dev.off()
+#dev.off()
 
-pdf("FVD_facet.pdf", width = 7, height = 5)
+#pdf("FVD_facet.pdf", width = 7, height = 5)
 ggcyto(gs,aes(x=FSC.A,`FVD eF780`), subset="Singlets") +
   geom_hex(bins = 200) +
   geom_gate(g.FVD) +
@@ -160,9 +173,9 @@ ggcyto(gs,aes(x=FSC.A,`FVD eF780`), subset="Singlets") +
   theme(strip.background = element_blank(),
         strip.text = element_text(color = "black"),
         legend.position = "none")
-dev.off()
+#dev.off()
 
-pdf("CD14_CD3_19_facet.pdf", width = 7, height = 5)
+#pdf("CD14_CD3_19_facet.pdf", width = 7, height = 5)
 ggcyto(gs,aes(x=`CD3/CD19 FITC`,y = `CD14 BV421`), subset="FVD") +
   geom_hex(bins = 500) +
   geom_gate(g.CD14) +
@@ -175,5 +188,5 @@ ggcyto(gs,aes(x=`CD3/CD19 FITC`,y = `CD14 BV421`), subset="FVD") +
   theme(strip.background = element_blank(),
         strip.text = element_text(color = "black"),
         legend.position = "none")
-dev.off()
+#dev.off()
 ```
